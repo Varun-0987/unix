@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# File to store the timetable
+TIMETABLE_FILE="timetable.txt"
+
+# Function to display the timetable
+view_timetable() {
+    echo "===== Today's Timetable ====="
+    if [[ -f $TIMETABLE_FILE && -s $TIMETABLE_FILE ]]; then
+        cat "$TIMETABLE_FILE"
+    else
+        echo "No events scheduled for today."
+    fi
+    echo "============================="
+}
+
+# Function to add an event
+add_event() {
+    echo "Enter the time for the event (e.g., 09:00 AM):"
+    read -r time
+    echo "Enter the event description:"
+    read -r description
+    echo "$time - $description" >> "$TIMETABLE_FILE"
+    echo "Event added!"
+}
+
+# Function to clear the timetable
+clear_timetable() {
+    > "$TIMETABLE_FILE"
+    echo "All events cleared."
+}
+
+# Menu system
+while true; do
+    echo ""
+    echo "Daily Timetable Viewer"
+    echo "1. View Timetable"
+    echo "2. Add Event"
+    echo "3. Clear Timetable"
+    echo "4. Exit"
+    echo "Choose an option:"
+    read -r choice
+
+    case $choice in
+        1)
+            view_timetable
+            ;;
+        2)
+            add_event
+            ;;
+        3)
+            clear_timetable
+            ;;
+        4)
+            echo "Goodbye!"
+            break
+            ;;
+        *)
+            echo "Invalid option. Please try again."
+            ;;
+    esac
+done
